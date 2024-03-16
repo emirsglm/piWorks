@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 
-# Sample DataFrame (replace with your actual DataFrame)
+# Sample DataFrame 
 data = {
     'Device_Type': ['AXO145', "TRU151", "ZOD231", "YRT326", "LWR245" ],
     'Stats_Access_Link': ['<url>https://xcd32112.smart_meter.com</url>', 
@@ -15,7 +15,7 @@ df = pd.DataFrame(data)
 
 # Function to extract pure URL information
 def extract_url(stats_access_link):
-    # Regular expression to extract the URL
+    # Extract the URL
     pattern = r'//([^</]+)'
     
     match = re.search(pattern, stats_access_link)
@@ -24,7 +24,7 @@ def extract_url(stats_access_link):
     else:
         return None
 
-# Apply the function to each row based
+# Apply the function to each row 
 df['Pure_URL'] = df.apply(lambda row: extract_url(row['Stats_Access_Link']), axis=1)
 
 # Display the result
