@@ -1,14 +1,23 @@
 WITH Medians AS (
   SELECT
     country,
-    AVG(daily_vaccinations) AS median_daily_vaccinations
-  FROM
-    country_vaccination_stats
+    MAX(daily_vaccinations) AS median_daily_vaccinations
+  FROM (
+    SELECT
+      country,
+      daily_vaccinations,
+      NTILE(4) OVER(PARTITION BY country ORDER BY daily_vaccinations) AS Quartile
+    FROM
+      country_vaccination_stats
+    WHERE
+      daily_vaccinations IS NOT NULL
+  ) X
   WHERE
-    daily_vaccinations IS NOT NULL
+    Quartile = 2
   GROUP BY
     country
 )
+
 SELECT
   t.country,
   t.date,
